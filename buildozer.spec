@@ -1,14 +1,14 @@
 
 [app]
 
-title = Snake Game 4.5 Neon Deluxe
+title = Snake Game 4.6 Neon Ultimate
 package.name = snakegame
 package.domain = org.yabana82
 
 source.dir = .
 source.include_exts = py,kv,png,jpg,jpeg,wav,ogg,atlas,json,ttf
 
-version = 4.5
+version = 4.6
 
 requirements = python3,kivy
 
