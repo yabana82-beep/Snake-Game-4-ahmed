@@ -34,12 +34,18 @@ jobs:
             libncursesw5-dev \
             libffi-dev libssl-dev
 
-      - name: Setup Python environment
+      - name: Setup Python
         run: |
           python3 -m venv .venv
           source .venv/bin/activate
           pip install --upgrade pip setuptools wheel
           pip install buildozer cython==0.29.36
+
+      - name: Accept Android SDK licenses
+        run: |
+          mkdir -p "$HOME/.android"
+          touch "$HOME/.android/repositories.cfg"
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses || true
 
       - name: Build APK
         run: |
