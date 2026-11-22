@@ -12,38 +12,38 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Java
+      - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
 
-      - name: Install system dependencies
+      - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y \
-            python3-pip \
-            python3-venv \
             git zip unzip \
-            autoconf libtool pkg-config \
+            python3-pip python3-venv \
+            build-essential \
+            autoconf automake libtool \
+            pkg-config cmake \
             zlib1g-dev libncurses5-dev \
-            libncursesw5-dev cmake \
-            libffi-dev libssl-dev \
-            build-essential
+            libncursesw5-dev \
+            libffi-dev libssl-dev
 
-      - name: Install Buildozer
+      - name: Setup Python environment
         run: |
-          python3 -m pip install --user --upgrade pip
-          python3 -m pip install --user \
-            buildozer \
-            cython==0.29.36
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          python3 -m venv .venv
+          source .venv/bin/activate
+          pip install --upgrade pip setuptools wheel
+          pip install buildozer cython==0.29.36
 
-      - name: Build Android APK
+      - name: Build APK
         run: |
+          source .venv/bin/activate
           buildozer -v android debug
 
       - name: Upload APK
